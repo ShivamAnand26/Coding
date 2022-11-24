@@ -1,0 +1,193 @@
+#include <iostream>
+#define MAX_CAPACITY 10
+using namespace std;
+
+int A[MAX_CAPACITY]={1,2,3,4,5};
+unsigned int len = 0;
+
+/**
+1) shift elements to the right
+2) insert element at position
+*/
+void insert(int position, int element)
+{
+  if (len == MAX_CAPACITY)
+  {
+    cout << "Array is full\n";
+    return;
+  }
+  else if (position >= MAX_CAPACITY || position > len)
+  {
+    cout << "Invalid value for position\n";
+    return;
+  }
+
+  if (len != 0)
+  {
+    // shift to the right
+    for (int k = len - 1; k >= position; k--)
+    {
+      A[k + 1] = A[k];
+    }
+  }
+
+  A[position] = element;
+  len++;
+}
+
+/**
+shift all elements to the left by one step
+*/
+void delete_at(int position)
+{
+  if (len == 0)
+  {
+    cout << "Array is empty\n";
+    return;
+  }
+  else if (position >= len)
+  {
+    cout << "Invalid value for position\n";
+    return;
+  }
+
+  for (int k = position; k < len; k++)
+  {
+    A[k] = A[k + 1];
+  }
+
+  len--;
+}
+
+void insert_at_start()
+{
+  int element;
+  cout << "Enter element: ";
+  cin >> element;
+
+  insert(0, element);
+}
+
+void insert_at_position()
+{
+  int position, element;
+
+  cout << "Enter position: ";
+  cin >> position;
+
+  cout << "Enter element: ";
+  cin >> element;
+
+  insert(position, element);
+}
+
+void delete_by_position()
+{
+  int position;
+  cout << "Enter position: ";
+  cin >> position;
+
+  delete_at(position);
+}
+
+void delete_by_value()
+{
+  int position = -1, value;
+  cout << "Enter value: ";
+  cin >> value;
+
+  for (int k = 0; k < len; k++)
+  {
+    if (A[k] == value)
+    {
+      position = k;
+      break;
+    }
+  }
+
+  if (position != -1)
+  {
+    delete_at(position);
+  }
+}
+
+void display_elements()
+{
+  if (len == 0)
+  {
+    cout << "No elements in array\n";
+    return;
+  }
+
+  cout << "Elements: ";
+  for (int i = 0; i < len; i++)
+  {
+    cout << A[i] << ' ';
+  }
+
+  cout << '\n';
+}
+
+int main()
+{
+  // print menu
+  cout << "|------------------------------------------------------------------------|\n";
+  cout << "|\t\t\t**********MENU**********\t\t\t |\n";
+  cout << "|------------------------------------------------------------------------|\n";
+  cout << "| Choose any one one of the option given below.\t\t\t\t |\n"
+
+          "| 1. Insert new element \t\t\t\t\t\t |\n|\t --> A) At the Beginning (Starting Position)\t\t\t |\n|\t --> B) At given Position\t\t\t\t\t |\n"
+          "| 2. Delete any element using\t\t\t\t\t\t |\n|\t --> A) Value of the Element\t\t\t\t\t |\n|\t --> B) Position of the Element\t\t\t\t\t |\n"
+          "| 3. Display Elements of the Arrays\t\t\t\t\t |\n"
+          "| 4. Exit\t\t\t\t\t\t\t\t |\n";
+  cout << "|------------------------------------------------------------------------|\n";
+
+  while (true)
+  {
+    char choice;
+
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case '1':
+      cout << "\n\t --> A) At the Beginning (Starting Position)\n\t --> B) At given Position\n";
+      cin >> choice;
+
+      switch (choice)
+      {
+      case 'A':
+        insert_at_start();
+        break;
+      case 'B':
+        insert_at_position();
+        break;
+      }
+
+      break;
+    case '2':
+      cout << "\n\t --> A) Value of the Element\n\t --> B) Position of the Element\n";
+      cin >> choice;
+
+      switch (choice)
+      {
+      case 'A':
+        delete_by_value();
+        break;
+      case 'B':
+        delete_by_position();
+        break;
+      }
+
+      break;
+    case '3':
+      display_elements();
+      break;
+    case '4':
+      return 0;
+    default:
+      cout << "Invalid Input\n";
+    }
+  }
+}
